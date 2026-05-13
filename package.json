@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:push":"npx drizzle-kit push",
+    "db:studio":"npx dirzzle-kit studio"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
