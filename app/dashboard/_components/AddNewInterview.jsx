@@ -16,6 +16,14 @@ import { Button } from '@base-ui/react'
 function AddNewInterview() {
 
     const [openDailog, setOpenDailog] = useState(false)
+    const [jobPosition, setJobPosition] = useState();
+    const [jobDesc, setJobDesc] = useState();
+    const [jobExperience, setJobExperience] = useState();
+
+    const onSubmit=(e)=>{
+        e.preventDefault()
+        console.log(jobPosition, jobDesc, jobExperience)
+    }
 
     return (
         <div>
@@ -28,27 +36,35 @@ function AddNewInterview() {
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
                         <DialogTitle className="text-2xl">Tell us more about your job interviewing</DialogTitle>
-                        <DialogDescription>
-                        </DialogDescription>
-                        <div>
-                            <h2>Add Details about position, Your skills and Years of experience</h2>
-                            <div className='mt-7 my-3'>
-                                <label>Job Role/Job Position</label>
-                                <Input placeholder="Ex. Full Stack Developer" />
+                        <form onSubmit={onSubmit}>
+                            <DialogDescription>
+                            </DialogDescription>
+                            <div>
+                                <h2>Add Details about position, Your skills and Years of experience</h2>
+                                <div className='mt-7 my-3'>
+                                    <label>Job Role/Job Position</label>
+                                    <Input placeholder="Ex. Full Stack Developer" required 
+                                    onChange={(event)=>setJobPosition(event.target.value)}
+                                    />
+                                </div>
+                                <div className=' my-3'>
+                                    <label>Job Description/ Tech Stack (In Short)</label>
+                                    <Textarea placeholder="Ex. React, Angular, NodeJs, MySql etc" required
+                                    onChange={(event)=>setJobDesc(event.target.value)}
+                                    />
+                                </div>
+                                <div className=' my-3'>
+                                    <label>Year of experience</label>
+                                    <Input placeholder="Ex.2" type="number" max="50" required 
+                                    onChange={(event)=>setJobExperience(event.target.value)}
+                                    />
+                                </div>
                             </div>
-                            <div className=' my-3'>
-                                <label>Job Description/ Tech Stack (In Short)</label>
-                                <Textarea placeholder="Ex. React, Angular, NodeJs, MySql etc" />
+                            <div className='flex gap-5 justify-end'>
+                                <Button type='button' variant="ghost" onClick={() => setOpenDailog(false)}>Cancel</Button>
+                                <Button type='submit'>Start Interview</Button>
                             </div>
-                            <div className=' my-3'>
-                                <label>Year of experience</label>
-                                <Input placeholder="Ex.2" type="number" />
-                            </div>
-                        </div>
-                        <div className='flex gap-5 justify-end'>
-                            <Button variant="ghost" onClick={() => setOpenDailog(false)}>Cancel</Button>
-                            <Button>Start Interview</Button>
-                        </div>
+                        </form>
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
