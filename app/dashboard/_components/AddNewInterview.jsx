@@ -12,6 +12,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from '@base-ui/react'
+import { chatSession } from '@/utiles/GeminiAIModel'
 
 function AddNewInterview() {
 
@@ -20,11 +21,14 @@ function AddNewInterview() {
     const [jobDesc, setJobDesc] = useState();
     const [jobExperience, setJobExperience] = useState();
 
-    const onSubmit=(e)=>{
+    const onSubmit = async (e) => {
         e.preventDefault()
         console.log(jobPosition, jobDesc, jobExperience);
 
-        const InputPrompt = "Job position: "+jobPosition+", Job Description: "+jobDesc+", Years of Experience: "+jobExperience+", Depends on Job Position, Job Description & Years of Experience give us "+process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUN+" interview question along with Answer in JSON format, Give us question and answer field on JSON"
+        const InputPrompt = "Job position: " + jobPosition + ", Job Description: " + jobDesc + ", Years of Experience: " + jobExperience + ", Depends on Job Position, Job Description & Years of Experience give us " + process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUN + " interview question along with Answer in JSON format, Give us question and answer field on JSON"
+
+        const result = await chatSession.sendMessage(InputPrompt);
+        console.log(result.response.text());
     }
 
     return (
@@ -45,20 +49,20 @@ function AddNewInterview() {
                                 <h2>Add Details about position, Your skills and Years of experience</h2>
                                 <div className='mt-7 my-3'>
                                     <label>Job Role/Job Position</label>
-                                    <Input placeholder="Ex. Full Stack Developer" required 
-                                    onChange={(event)=>setJobPosition(event.target.value)}
+                                    <Input placeholder="Ex. Full Stack Developer" required
+                                        onChange={(event) => setJobPosition(event.target.value)}
                                     />
                                 </div>
                                 <div className=' my-3'>
                                     <label>Job Description/ Tech Stack (In Short)</label>
                                     <Textarea placeholder="Ex. React, Angular, NodeJs, MySql etc" required
-                                    onChange={(event)=>setJobDesc(event.target.value)}
+                                        onChange={(event) => setJobDesc(event.target.value)}
                                     />
                                 </div>
                                 <div className=' my-3'>
                                     <label>Year of experience</label>
-                                    <Input placeholder="Ex.2" type="number" max="50" required 
-                                    onChange={(event)=>setJobExperience(event.target.value)}
+                                    <Input placeholder="Ex.2" type="number" max="50" required
+                                        onChange={(event) => setJobExperience(event.target.value)}
                                     />
                                 </div>
                             </div>
