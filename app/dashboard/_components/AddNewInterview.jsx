@@ -16,6 +16,9 @@ import { chatSession } from '@/utiles/GeminiAIModel'
 import { LoaderCircle } from 'lucide-react'
 import { db } from '@/utiles/db'
 import { MockInterview } from '@/utiles/schema'
+import { v4 as uuidv4 } from "uuid";
+import { useUser } from '@clerk/nextjs'
+import moment from 'moment/moment'
 
 function AddNewInterview() {
 
@@ -24,7 +27,8 @@ function AddNewInterview() {
     const [jobDesc, setJobDesc] = useState();
     const [jobExperience, setJobExperience] = useState();
     const [loading, setLoading] = useState(false);
-    const [jsonResponse, setJsonResponse]=useState([]);
+    const [jsonResponse, setJsonResponse] = useState([]);
+    const { useUser } = useUser();
 
     const onSubmit = async (e) => {
         setLoading(true)
@@ -38,7 +42,23 @@ function AddNewInterview() {
         console.log(JSON.parse(MockJsonResp));
         setJsonResponse(MockJsonResp);
 
-        const resp=await db.insert(MockInterview)
+        if (MockJsonResp) {
+            const resp = await db.insert(MockInterview)
+                .values({
+                    mockId: uuidv4(),
+                    jsonMockResp: MockJsonResp,
+                    jobPosition: jobPosition,
+                    jobDesc: jobDesc,
+                    jobExpreience: jobExperience,
+                    createdBy: user?.primaryEmailAddress?.emailAddress,
+                    createdAt: moment().format('DD-MM-yyyy')
+                }).returning({ mockId: MockInterview.mockId })
+
+            console.log("Inserted ID:", resp)
+        }
+        else {
+            console.log("ERROR")
+        }
 
         setLoading(false)
     }
