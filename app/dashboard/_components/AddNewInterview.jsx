@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@base-ui/react'
 import { chatSession } from '@/utiles/GeminiAIModel'
+import { LoaderCircle } from 'lucide-react'
+import { db } from '@/utiles/db'
+import { MockInterview } from '@/utiles/schema'
 
 function AddNewInterview() {
 
@@ -20,15 +23,24 @@ function AddNewInterview() {
     const [jobPosition, setJobPosition] = useState();
     const [jobDesc, setJobDesc] = useState();
     const [jobExperience, setJobExperience] = useState();
+    const [loading, setLoading] = useState(false);
+    const [jsonResponse, setJsonResponse]=useState([]);
 
     const onSubmit = async (e) => {
+        setLoading(true)
         e.preventDefault()
         console.log(jobPosition, jobDesc, jobExperience);
 
         const InputPrompt = "Job position: " + jobPosition + ", Job Description: " + jobDesc + ", Years of Experience: " + jobExperience + ", Depends on Job Position, Job Description & Years of Experience give us " + process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUN + " interview question along with Answer in JSON format, Give us question and answer field on JSON"
 
         const result = await chatSession.sendMessage(InputPrompt);
-        console.log(result.response.text());
+        const MockJsonResp = result.response.text();
+        console.log(JSON.parse(MockJsonResp));
+        setJsonResponse(MockJsonResp);
+
+        const resp=await db.insert(MockInterview)
+
+        setLoading(false)
     }
 
     return (
@@ -68,7 +80,14 @@ function AddNewInterview() {
                             </div>
                             <div className='flex gap-5 justify-end'>
                                 <Button type='button' variant="ghost" onClick={() => setOpenDailog(false)}>Cancel</Button>
-                                <Button type='submit'>Start Interview</Button>
+                                <Button type='submit' disabled={loading}>
+                                    {loading ?
+                                        <>
+                                            <LoaderCircle className='animate-spin' />'Generating from AI'
+                                        </> : 'Start Interview'
+                                    }
+
+                                </Button>
                             </div>
                         </form>
                     </DialogHeader>
