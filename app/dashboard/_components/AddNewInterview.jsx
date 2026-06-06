@@ -51,7 +51,7 @@ function AddNewInterview() {
                     jsonMockResp: MockJsonResp,
                     jobPosition: jobPosition,
                     jobDesc: jobDesc,
-                    jobExpreience: jobExperience,
+                    jobExperience: jobExperience,
                     createdBy: user?.primaryEmailAddress?.emailAddress,
                     createdAt: moment().format('DD-MM-yyyy')
                 }).returning({ mockId: MockInterview.mockId })
@@ -99,7 +99,7 @@ function AddNewInterview() {
                                     />
                                 </div>
                                 <div className=' my-3'>
-                                    <label>Year of experience</label>
+                                    <label>Year of Experience</label>
                                     <Input placeholder="Ex.2" type="number" max="50" required
                                         onChange={(event) => setJobExperience(event.target.value)}
                                     />
