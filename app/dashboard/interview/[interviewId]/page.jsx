@@ -6,6 +6,7 @@ import React, { useEffect, use } from 'react'
 import { useState } from 'react'
 import { Lightbulb, Webcam, WebcamIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 function Interview({ params }) {
   const { interviewId } = use(params)  // unwrap karo
 
@@ -61,7 +62,9 @@ function Interview({ params }) {
         </div>
       </div>
       <div className='flex justify-end items-end'>
+        <Link href={'/dashboard/interview/'+interviewId+'/start'}>
         <Button>Start Interview</Button>
+        </Link>
       </div>
     </div>
   )
