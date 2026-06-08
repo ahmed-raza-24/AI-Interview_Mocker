@@ -35,10 +35,13 @@ function StartInterview({ params }) {
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2'>
         {/*Questions */}
-        <QuestionsSection mockInterviewQuestion={mockInterviewQuestion} />
+        <QuestionsSection 
+        mockInterviewQuestion={mockInterviewQuestion}
+        activeQuestionIndex={activeQuestionIndex}
+        />
       </div>
     </div>
   )
 }
 
-export default StartInterview
+export default StartInterview;
