@@ -9,9 +9,12 @@ import {useState} from 'react'
 import { toast } from 'sonner'
 import { chatSession } from '@/utiles/GeminiAIModel'
 import { UserAnswer } from '@/utiles/schema'
+import { useUser } from '@clerk/nextjs'
 
 const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, interviewData) => {
   const [userAnswer, setUserAnswer] = useState('');
+  const {user}=useUser();
+  const [loading, setLoading] = useState(false);
   const {
     error,
     interimResult,
@@ -33,8 +36,10 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
 
   const SaveUserAnswer=async()=>{
     if(isRecording){
+      setLoading(true);
       stopSpeechToText();
       if(userAnswer?.length<10){
+        setLoading(false);
         toast('Error while saving your answer, Please record again')
         return
       }
@@ -55,8 +60,18 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
         mockIdRef:interviewData?.mockId,
         question:mockInterviewQuestion[activeQuestionIndex]?.question,
         correctAns:mockInterviewQuestion[activeQuestionIndex]?.answer,
-        k
+        userAns:userAnswer,
+        feedback:JsonFeedbackResp?.feedback,
+        rating:JsonFeedbackResp?.rating,
+        userEmail:user?.primaryEmailAddress?.emailAddress,
+        createdAt:moment().format('DD-MM-yyyy')
       })
+
+      if(resp){
+        toast('User Answer recorded successfully')
+      }
+      setUserAnswer('');
+      setLoading(false);
 
     } else {
       startSpeechToText()
@@ -79,6 +94,7 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
       </div>
       <Button variant="outline" className='my-10'
         disabled={isRecording}
+        // disabled={loading}
         onClick={SaveUserAnswer}
         >
         {isRecording?
