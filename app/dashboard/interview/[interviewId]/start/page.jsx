@@ -37,7 +37,7 @@ function StartInterview({ params }) {
     () => import('./_components/RecordAnswerSection'),
     { ssr: false }
   )
-  
+
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
@@ -46,7 +46,10 @@ function StartInterview({ params }) {
           mockInterviewQuestion={mockInterviewQuestion}
           activeQuestionIndex={activeQuestionIndex}
         />
-        <RecordAnswerSection />
+        <RecordAnswerSection
+          mockInterviewQuestion={mockInterviewQuestion}
+          activeQuestionIndex={activeQuestionIndex}
+        />
       </div>
     </div>
   )
