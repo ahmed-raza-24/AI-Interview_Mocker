@@ -8,8 +8,9 @@ import { Mic } from 'lucide-react'
 import {useState} from 'react'
 import { toast } from 'sonner'
 import { chatSession } from '@/utiles/GeminiAIModel'
+import { UserAnswer } from '@/utiles/schema'
 
-const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex) => {
+const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, interviewData) => {
   const [userAnswer, setUserAnswer] = useState('');
   const {
     error,
@@ -48,6 +49,14 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex) => {
       const mockJsonResp=(result.response.text()).replace('```json','').replace('```','');
       console.log(mockJsonResp);
       const JsonFeedbackResp=JSON.parse(mockJsonResp);
+
+      const resp=await db.insert(UserAnswer)
+      .values({
+        mockIdRef:interviewData?.mockId,
+        question:mockInterviewQuestion[activeQuestionIndex]?.question,
+        correctAns:mockInterviewQuestion[activeQuestionIndex]?.answer,
+        k
+      })
 
     } else {
       startSpeechToText()
