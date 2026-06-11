@@ -33,18 +33,32 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
     ))
   },[results])
 
+    useEffect(()=>{
+      if(!isRecording&&userAnswer.length>10)
+    {
+      UpdateUserAnswer();
+    }
+    if(userAnswer?.length<10){
+      setLoading(false);
+      toast('Error while saving your answer, Please record again');
+      return;
+    }
+  },[userAnswer])
 
-  const SaveUserAnswer=async()=>{
+
+  const StartStopRecording=async()=>{
+    
     if(isRecording){
-      setLoading(true);
       stopSpeechToText();
-      if(userAnswer?.length<10){
-        setLoading(false);
-        toast('Error while saving your answer, Please record again')
-        return
-      }
+    } else {
+      startSpeechToText()
+    }
+  }
 
-      const feedbackPrompt = "Question:"+mockInterviewQuestion[activeQuestionIndex]?.question+
+  const UpdateUserAnswer=async()=>{
+    console.log(userAnswer);
+    setLoading(true);
+    const feedbackPrompt = "Question:"+mockInterviewQuestion[activeQuestionIndex]?.question+
       ", User Answer:"+userAnswer+", Depends on question and user answer for given interview question"+
       " please give us rating for answer and feedback as area of improvement if any"+
       " in just 3 to 5 lines to improve it in JSON format with rating field and feedback field"
@@ -69,13 +83,9 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
 
       if(resp){
         toast('User Answer recorded successfully')
-      }
+      } 
       setUserAnswer('');
       setLoading(false);
-
-    } else {
-      startSpeechToText()
-    }
   }
 
   return (
@@ -95,7 +105,7 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
       <Button variant="outline" className='my-10'
         disabled={isRecording}
         // disabled={loading}
-        onClick={SaveUserAnswer}
+        onClick={StartStopRecording}
         >
         {isRecording?
         <h2 className='text-red-600 flex gap-2'>
@@ -103,7 +113,6 @@ const RecordAnswerSection = (mockInterviewQuestion, activeQuestionIndex, intervi
         </h2>
         :
         'Record Answer'}</Button>
-      <Button onClick={()=>console.log(userAnswer)}>Show User Answer</Button>
     </div>
   )
 }
