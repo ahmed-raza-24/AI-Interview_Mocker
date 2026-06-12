@@ -6,6 +6,7 @@ import React, { useEffect, useState, use } from 'react'
 import QuestionsSection from './_components/QuestionsSection';
 import dynamic from 'next/dynamic'
 import { Button } from '@base-ui/react';
+import Link from 'next/link';
 // import RecordAnswerSection from './_components/RecordAnswerSection';
 
 function StartInterview({ params }) {
@@ -59,7 +60,9 @@ function StartInterview({ params }) {
         {activeQuestionIndex!=mockInterviewQuestion?.length-1&&
         <Button onClick={()=>setActiveQuestionIndex(activeQuestionIndex+1)} className='bg-violet-800 text-white p-2 rounded-md border border-none cursor-pointer'>Next Question</Button>}
         {activeQuestionIndex==mockInterviewQuestion?.length-1&&
-        <Button className='bg-violet-800 text-white p-2 rounded-md border border-none cursor-pointer'>End Interview</Button>}
+        <Link href={'/dashboard/interview/'+interviewData?.mockId+"/feedback"}>
+        <Button className='bg-violet-800 text-white p-2 rounded-md border border-none cursor-pointer'>End Interview</Button>
+        </Link>}
       </div>
     </div>
   )
