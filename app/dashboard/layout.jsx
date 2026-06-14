@@ -12,4 +12,4 @@ function DashboardLayout({children}) {
   )
 }
 
-export default DashboardLayout
+export default DashboardLayout;
