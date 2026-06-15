@@ -18,8 +18,6 @@ function StartInterview({ params }) {
 
   useEffect(() => {
     GetInterviewDetails();
-    console.log(typeof mockInterviewQuestion)
-    console.log(mockInterviewQuestion)
   }, [interviewId]);
 
   /*
@@ -30,7 +28,6 @@ function StartInterview({ params }) {
       .where(eq(MockInterview.mockId, interviewId))
 
     const jsonMockResp = JSON.parse(result[0].jsonMockResp)
-    console.log(jsonMockResp)
     setmockInterviewQuestion(jsonMockResp);
     setInterviewData(result[0]);
   }

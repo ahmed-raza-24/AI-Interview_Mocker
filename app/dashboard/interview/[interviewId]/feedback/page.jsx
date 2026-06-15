@@ -31,9 +31,6 @@ const Feedback = ({ params }) => {
       .where(eq(UserAnswer.mockIdRef, interviewId))
       .orderBy(UserAnswer.id);
 
-    console.log(result);
-    console.log('interviewId:', interviewId)
-    console.log('result:', result)
     setFeedbackList(result);
     if (result.length > 0) {
       const totalRating = result.reduce((sum, item) => {

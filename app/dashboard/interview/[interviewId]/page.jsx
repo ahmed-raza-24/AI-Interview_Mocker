@@ -13,7 +13,6 @@ function Interview({ params }) {
   const [interviewData, setInterviewData] = useState();
   const [webCamEnabled, setWebCamEnabled] = useState(false);
   useEffect(() => {
-    console.log(interviewId)
     GetInterviewDetails();
   }, [])
 
@@ -24,7 +23,6 @@ function Interview({ params }) {
     const result = await db.select().from(MockInterview)
       .where(eq(MockInterview.mockId, interviewId))
 
-    console.log(result);
     setInterviewData(result[0]);
   }
 
