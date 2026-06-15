@@ -1,3 +1,6 @@
+'use client'
+import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { BrainCircuit, Mic, BarChart3, ArrowRight, Check } from 'lucide-react'
@@ -33,6 +36,18 @@ const steps = [
 ]
 
 export default function LandingPage() {
+
+  const { isSignedIn } = useAuth()
+  const router = useRouter()
+
+  const handleGetStarted = () => {
+    if (isSignedIn) {
+      router.push('/dashboard')
+    } else {
+      router.push('/sign-in')
+    }
+  }
+
   return (
     <div className='min-h-screen bg-white'>
 
@@ -46,21 +61,24 @@ export default function LandingPage() {
           <Link href='/dashboard'>
             <Button variant='ghost' className='font-semibold cursor-pointer'>Dashboard</Button>
           </Link>
-          <Link href='/sign-in'>
-            <Button className='bg-violet-600 hover:bg-violet-700 cursor-pointer'>Get Started Free</Button>
-          </Link>
+          <Button
+            className='bg-violet-600 hover:bg-violet-700 cursor-pointer'
+            onClick={handleGetStarted}
+          >
+            Get Started Free
+          </Button>
         </div>
       </nav>
 
       {/* Hero */}
       <section className='text-center px-6 py-24 max-w-4xl mx-auto'>
         <div className='inline-flex items-center gap-2 bg-violet-50 border border-violet-200 rounded-full px-4 py-1.5 mb-8'>
-          <span className='w-2 h-2 bg-violet-600 rounded-full animate-pulse'/>
+          <span className='w-2 h-2 bg-violet-600 rounded-full animate-pulse' />
           <span className='text-xs font-bold text-violet-600 uppercase tracking-widest'>AI Powered Mock Interviews</span>
         </div>
 
         <h1 className='text-5xl md:text-6xl font-black text-gray-900 leading-tight tracking-tight mb-6'>
-          Ace Your Next Interview <br/>
+          Ace Your Next Interview <br />
           <span className='text-violet-600'>with AI</span>
         </h1>
 
@@ -71,7 +89,7 @@ export default function LandingPage() {
         <div className='flex items-center justify-center gap-4 flex-wrap'>
           <Link href='/dashboard'>
             <Button className='bg-violet-600 hover:bg-violet-700 text-white px-8 py-6 text-base font-bold cursor-pointer rounded-xl'>
-              Start Practicing Free <ArrowRight className='ml-2 h-4 w-4'/>
+              Start Practicing Free <ArrowRight className='ml-2 h-4 w-4' />
             </Button>
           </Link>
           <Link href='/dashboard/howitworks'>
@@ -125,7 +143,7 @@ export default function LandingPage() {
                   {i + 1}
                 </div>
                 <span className='font-semibold text-gray-700'>{step}</span>
-                <Check className='ml-auto h-5 w-5 text-violet-400 shrink-0'/>
+                <Check className='ml-auto h-5 w-5 text-violet-400 shrink-0' />
               </div>
             ))}
           </div>
@@ -139,7 +157,7 @@ export default function LandingPage() {
           <p className='text-gray-500 font-medium mb-8'>Join thousands of candidates who improved with AI-powered practice</p>
           <Link href='/dashboard'>
             <Button className='bg-violet-600 hover:bg-violet-700 text-white px-10 py-6 text-base font-bold cursor-pointer rounded-xl'>
-              Start Free Today <ArrowRight className='ml-2 h-4 w-4'/>
+              Start Free Today <ArrowRight className='ml-2 h-4 w-4' />
             </Button>
           </Link>
         </div>

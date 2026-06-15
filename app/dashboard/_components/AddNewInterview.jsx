@@ -99,14 +99,14 @@ function AddNewInterview() {
                                 </div>
                                 <div className=' my-3'>
                                     <label>Year of Experience</label>
-                                    <Input placeholder="Ex.2" type="number" max="50" required
+                                    <Input placeholder="Ex.2" type="number" min="0" max="50" required
                                         onChange={(event) => setJobExperience(event.target.value)}
                                     />
                                 </div>
                             </div>
                             <div className='flex gap-5 justify-end'>
                                 <Button type='button' variant="ghost" onClick={() => setOpenDailog(false)}>Cancel</Button>
-                                <Button type='submit' disabled={loading}>
+                                <Button className='bg-violet-700 cursor-pointer text-white p-2 rounded-md' type='submit' disabled={loading}>
                                     {loading ?
                                         <>
                                             <LoaderCircle className='animate-spin' />'Generating from AI'
