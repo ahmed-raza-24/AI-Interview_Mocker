@@ -100,8 +100,8 @@ utils/
 
 | Landing Page | Dashboard | Interview Session |
 |---|---|---|
-| <img width="1890" height="946" alt="landingPage" src="https://github.com/user-attachments/assets/467215fa-0d35-4381-96e7-4c9a917fffaf" />
- | <img width="1911" height="945" alt="DashboardPage" src="https://github.com/user-attachments/assets/115c081b-fb18-4f77-ae43-d2677ee4a7d9" />
+| <img width="1890" height="946" alt="landingPage" src="https://github.com/user-attachments/assets/467215fa-0d35-4381-96e7-4c9a917fffaf" /> |
+ | <img width="1911" height="945" alt="DashboardPage" src="https://github.com/user-attachments/assets/115c081b-fb18-4f77-ae43-d2677ee4a7d9" /> |
  | <img width="1903" height="924" alt="InterviewPage" src="https://github.com/user-attachments/assets/8fc6d2f5-378f-4466-9f11-f29e78514771" /> |
 
 ---
