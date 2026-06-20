@@ -1,18 +1,32 @@
-import { Lightbulb, Volume2 } from 'lucide-react';
-import React from 'react'
+import { Lightbulb, Volume2, VolumeX } from 'lucide-react';
+import React from 'react';
+import { useState } from 'react';
 
 const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
-    
-    const textToSpeach=(text)=>{
-        if('speechSynthesis' in window){
-            const speach=new SpeechSynthesisUtterance(text);
+
+    const [isSpeaking, setIsSpeaking] = useState(false);
+
+    const textToSpeach = (text) => {
+        if ('speechSynthesis' in window) {
+            if (isSpeaking) {
+                window.speechSynthesis.cancel()
+                setIsSpeaking(false)
+                return
+            }
+
+            window.speechSynthesis.cancel()  // safety — purana clear karo
+            const speach = new SpeechSynthesisUtterance(text);
+
+            speach.onend = () => setIsSpeaking(false)  // khatam hone pe state reset
+
             window.speechSynthesis.speak(speach)
+            setIsSpeaking(true)
         } else {
             alert('Sorry, Your browser does not support text to speach')
         }
     }
-    
-    return mockInterviewQuestion&&(
+
+    return mockInterviewQuestion && (
         <div className='p-5 border rounded-lg my-10'>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
                 {mockInterviewQuestion && mockInterviewQuestion.map((question, index) => (
@@ -27,10 +41,14 @@ const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
                 ))}
             </div>
             <h2 className='my-5 text-md md:text-lg'>{mockInterviewQuestion[activeQuestionIndex]?.question}</h2>
-            <Volume2 className='cursor-pointer' onClick={()=>textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)}/>
+            {isSpeaking ? (
+                <Volume2 className='cursor-pointer' onClick={() => textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)} />
+            ) : (
+                <VolumeX className='cursor-pointer' onClick={() => textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)} />
+            )}
             <div className='border rounded-lg p-5 bg-blue-100 mt-20'>
                 <h2 className='flex gap-2 items-center text-blue-500'>
-                    <Lightbulb/>
+                    <Lightbulb />
                     <strong>Note:</strong>
                 </h2>
                 <h2 className='text-sm text-blue-500 my-2'>{process.env.NEXT_PUBLIC_INFORMATION}</h2>

@@ -31,6 +31,16 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
   });
 
   useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        console.log('Permission granted')
+      })
+      .catch((err) => {
+        console.log('Permission denied:', err)
+      })
+  }, [])
+
+  useEffect(() => {
     if (interimResult) {
       setUserAnswer(interimResult)
     }
@@ -87,7 +97,15 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
     <div className='flex items-center justify-center flex-col'>
       <div className='flex flex-col mt-20 justify-center items-center bg-black rounded-lg p-5'>
         <Image alt='' src={'/webcam.png'} width={200} height={200} className='absolute' />
-        <Webcam mirrored={true} style={{ height: 300, width: '100%', zIndex: 10 }} />
+        <Webcam
+          mirrored={true}
+          onUserMediaError={(err) => console.log('Webcam error:', err)}
+          style={{
+            height: 300,
+            width: '100%',
+            zIndex: 10,
+          }}
+        />
       </div>
       <Button
         variant="outline"
